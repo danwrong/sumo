@@ -10,11 +10,13 @@ var HCard = Microformat.define('vcard', {
     // inferred n from fn special case
     'fn' : function(node, data) {
       var fn = this._extractData(node, 'simple');
+      
       if (m = fn.match(/^(\w+) (\w+)$/)) {
         data.n = data.n || {};
         data.n.givenName = data.n.givenName || m[1];
         data.n.familyName = data.n.familyName || m[2];
       }
+      
       return fn;
     }
   }],
@@ -22,10 +24,10 @@ var HCard = Microformat.define('vcard', {
       'url' : 'url', 'logo' : 'url', 'photo' : 'url' 
     }, {
     'email' : {
-      many : ['type', { 'value' : 'url' }]
+      one : ['type', { 'value' : 'url' }]
     },
     'tel' : {
-      many : ['type', 'value']
+      one : ['type', 'value']
     },
     'adr' : {
       one : ['post-office-box', 'extended-address', 'street-address', 'locality', 'region',
