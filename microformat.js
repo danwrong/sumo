@@ -111,6 +111,7 @@ Microformat = {
       return data;
     },
     _extractData : function(node, dataType, data) {
+      if (dataType._parse) return dataType._parse(dataType.format, node);
       if (typeof dataType == 'function') return dataType.call(this, node, data);
       
       switch (dataType) {
@@ -118,8 +119,7 @@ Microformat = {
         case 'url': return this._extractURL(node);
       }
       
-      if (dataType._parse) return dataType._parse(dataType.format, node);
-      else return this._parse(dataType, node);
+      return this._parse(dataType, node);
     },
     _extractURL : function(node) {
       var href;
