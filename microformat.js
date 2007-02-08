@@ -1,3 +1,18 @@
+// Generic Microformat Parser v0.1 Dan Webb (dan@danwebb.net)
+// Licenced under the MIT Licence
+// 
+// var people = HCard.discover();
+// people[0].fn => 'Dan Webb'
+// people[0].urlList => ['http://danwebb.net', 'http://eventwax.com']
+//
+// TODO
+//
+// Fix _propFor to work with old safari
+// Find and use unit testing framework on microformats.org test cases
+// More formats: HFeed, HEntry, HAtom, RelTag, XFN?
+
+
+// JavaScript 1.6 Iterators and generics cross-browser
 if (!Array.prototype.forEach) {
   Array.prototype.forEach = function(func, scope) {
     scope = scope || this;
@@ -32,6 +47,7 @@ if (!Array.prototype.filter) {
     }
 });
 
+// Main Microformat namespace
 Microformat = {
   define : function(name, spec) {
     var mf = function(node, data) {
@@ -56,51 +72,54 @@ Microformat = {
     },
     _parse : function(format, node) {
       var data = {};
-      Microformat.extend(data, this._parseOne(format, node));
-      Microformat.extend(data, this._parseMany(format, node));
+      this._process(data, format.one, node, true);
+      this._process(data, format.many, node);
       return data;
     },
-    _parseOne : function(format, context) {
-      var ones = {}, node;
-      format.one.forEach(function(item) {
+    _process : function(data, format, context, firstOnly) {
+      var selection, first;
+      format = format || [];
+      format.forEach(function(item) {
         if (typeof item == 'string') {
-          if (node = Microformat.$$(item, context)[0]) 
-            ones[this._propFor(item)] = this._extractData(node, 'simple');
-        } else {
-            for (var cls in item) 
-              if (node = Microformat.$$(cls, context)[0]) {
-                ones[this._propFor(cls)] = this._extractData(node, item[cls]);
-              }
-        }
-      }, this);
-      return ones;
-    },
-    _parseMany : function(format, context) {
-      var manies = {}, nodes;
-      format.many.forEach(function(item) {
-        if (typeof item == 'string') {
-          nodes = Microformat.$$(item, context);
-          if (nodes.length > 0) manies[this._propFor(item) + 'List'] = nodes.map(function(node) {
-            return this._extractData(node, 'simple');
-          }, this);
-        } else {
-          nodes = Microformat.$$(cls, context);
-          for (var cls in item) {
-            nodes = Microformat.$$(item[cls], context);
-            if (nodes.length > 0) manies[this._propFor(cls + 'List')] = nodes.map(function(node) {
-              return this._extractData(node, item[cls]);
+          selection = Microformat.$$(item, context);
+          
+          if (firstOnly && (first = selection[0])) {
+            data[this._propFor(item)] = this._extractData(first, 'simple', data);
+          } else if (selection.length > 0) {
+            data[this._propFor(item) + 'List'] = selection.map(function(node) {
+              return this._extractData(node, 'simple', data);
             }, this);
           }
+            
+        } else {
+          
+            for (var cls in item) {
+              selection = Microformat.$$(cls, context);
+              
+              if (firstOnly && (first = selection[0])) {
+                data[this._propFor(cls)] = this._extractData(first, item[cls], data);
+              } else if (selection.length > 0) {
+                data[this._propFor(cls + 'List')] = selection.map(function(node) {
+                  return this._extractData(node, item[cls], data);
+                }, this);
+              }
+            }
+              
         }
+        
       }, this);
-      return manies;
+      return data;
     },
-    _extractData : function(node, dataType) {
+    _extractData : function(node, dataType, data) {
+      if (typeof dataType == 'function') return dataType.call(this, node, data);
+      
       switch (dataType) {
         case 'simple': return this._extractSimple(node);
         case 'url': return this._extractURL(node);
       }
-      return this._parse(dataType, node);
+      
+      if (dataType._parse) return dataType._parse(dataType.format, node);
+      else return this._parse(dataType, node);
     },
     _extractURL : function(node) {
       var href;
@@ -112,7 +131,7 @@ Microformat = {
         case 'object': href = node.data;
       }
       if (href) {
-        if (href.indexOf('mailto:') == 1) 
+        if (href.indexOf('mailto:') == 0) 
           href = href.replace(/^mailto:/, '').replace(/\?.*$/, '');
         return href;
       }
@@ -153,6 +172,7 @@ Microformat = {
       if (this.handlers[prop]) this.handlers[prop].call(this, item, data);
     }
   },
+  // In built getElementsByClassName
   $$ : function(className, context) {
     context = context || document;
     var nodeList;
@@ -171,9 +191,11 @@ Microformat = {
     var re = new RegExp('(^|\\s)' + className + '(\\s|$)');
     return Array.filter(nodeList, function(node) {  return node.className.match(re) });
   },
+  // In built Object.extend equivilent
   extend : function(dest, source) {
     for (var prop in source) dest[prop] = source[prop];
     return dest;
   },
+  // methods available to all instances of a microformat
   Base : {}
 };

@@ -1,11 +1,21 @@
 var HCard = Microformat.define('vcard', {
-  one : ['fn', 'bday', 'tz', 'sort-string', 'uid', 'class', {
+  one : ['bday', 'tz', 'sort-string', 'uid', 'class', {
     'n' : {
       one : ['family-name', 'given-name', 'additional-name'],
       many : ['honorific-prefix', 'honorific-suffix']
     },
     'geo' : {
       one : ['latitude', 'longitude']
+    },
+    // inferred n from fn special case
+    'fn' : function(node, data) {
+      var fn = this._extractData(node, 'simple');
+      if (m = fn.match(/^(\w+) (\w+)$/)) {
+        data.n = data.n || {};
+        data.n.givenName = data.n.givenName || m[1];
+        data.n.familyName = data.n.familyName || m[2];
+      }
+      return fn;
     }
   }],
   many : ['label', 'sound', 'title', 'role', 'key', 'mailer', 'rev', 'nickname', 'category', 'note', { 
