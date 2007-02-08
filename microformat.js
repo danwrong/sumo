@@ -150,7 +150,7 @@ Microformat = {
       return Array.map(node.childNodes, function(node) {
         if (node.nodeType == 3) return node.nodeValue;
         else return this._getText(node);
-      }, this).join('');
+      }, this).join('').replace(/(^\s+)|(\s+)$/, '').replace(/\s+/g, ' ');
     },
     _coerce : function(value) {
       var date, number;
