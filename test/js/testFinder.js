@@ -47,7 +47,8 @@ Test.Suite.FileFinder.prototype = {
 		if (link.firstChild instanceof HTMLImageElement) {
 			if(link.firstChild.alt.indexOf("Directory") >= 0) {
 				logger.debug("alt: " + link.firstChild.alt);
-				this.dirList.push(href);
+				// DONT RECURSES
+				//this.dirList.push(href);
 				logger.debug("add dir: " + href);
 			}
 		}
