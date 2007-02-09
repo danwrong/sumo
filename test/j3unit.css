@@ -1,0 +1,125 @@
+body {
+	background-color: #ffeebb;
+	margin: 5px;
+	padding: 0px;
+}
+
+.passedBackground {
+	background-color: #00ff00;
+}
+
+.failedBackground {
+	background-color: #ff0000;
+}
+
+#tests div,#results,#testlog {
+	border: thin solid #fbbc56;
+	font-weight: bold;
+	background-color: white;
+	padding: 5px;
+	z-index: 1;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+ul li {
+	margin: 5px;
+}
+
+ul li ul li {
+	margin-left: 30px;
+	font-size: smaller;
+}
+
+#tests span {
+	font-weight: bold;
+}
+
+#testCaseList span {
+	color: black;
+	border: thin solid #fbbc56;
+	margin-right: 5px;
+	padding: 0px 3px;
+	cursor: pointer;
+}
+
+#title,.sectionTitle,h1 {
+	border-bottom: thin dotted #fbbc56;
+	font-weight: bold;
+}
+
+#title,h1 {
+	font-size: 1.4em;
+	font-variant: small-caps;
+	border-bottom: medium dashed #fbbc56;
+}
+
+.failed a,.failed {
+	color: #CC0000;
+}
+
+.passed a,.passed {
+	color: #00AA00;
+}
+
+#logsummary {
+	font-weight: bold;
+	margin-left: 10px;
+}
+
+#logtable {
+	width: 97%;
+	border: thin solid #fbbc56;
+	border-collapse: collapse;
+	margin: 10px;
+}
+
+#logtable td,#logtable th {
+	border-left: thin dashed #fbbc56;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 5px;
+}
+
+#logtable th {
+	text-align: left;
+	font-variant: small-caps;
+	background-color: #ffeebb;
+	border-bottom: thin solid #fbbc56;
+}
+
+#logtable td {
+	padding: 5px;
+	padding-top: 0px;
+	vertical-align: top;
+}
+
+#project,#sourceforge {
+	text-align: center;
+}
+
+#project A:link IMG,#project A:visited IMG {
+	border: thin #fbbc56 solid;
+}
+
+#sourceforge {
+	margin-top: 10px;
+}
+
+.code {
+	border: thin dotted #e0a84d;
+	padding: 0px 5px;
+}
+
+#menu {
+	margin-top: 10px;
+	text-align: center;
+}
+
+#menu ul li {
+	display: inline;
+}

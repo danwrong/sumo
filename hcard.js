@@ -4,12 +4,17 @@ var HCard = Microformat.define('vcard', {
       one : ['family-name', 'given-name', 'additional-name'],
       many : ['honorific-prefix', 'honorific-suffix']
     },
-    'geo' : {
-      one : ['latitude', 'longitude']
+    'geo' : function(node) {
+      var m;
+      if ((node.nodeName.toLowerCase() == 'abbr') && (m = node.title.match(/^([\-\d\.]+);([\-\d\.]+)$/))) {
+        return { latitude : m[1], longitude : m[2] };
+      }
+      
+      return this._extractData(node, { one : ['latitude', 'longitude'] });
     },
-    // inferred n from fn special case
+    // implied n
     'fn' : function(node, data) {
-      var fn = this._extractData(node, 'simple');
+      var m, fn = this._extractData(node, 'simple');
       
       if (m = fn.match(/^(\w+) (\w+)$/)) {
         data.n = data.n || {};
@@ -17,30 +22,33 @@ var HCard = Microformat.define('vcard', {
         data.n.familyName = data.n.familyName || m[2];
       }
       
+      if (m = fn.match(/^(\w+),? (\w+)\.?$/)) {
+        data.n = data.n || {};
+        data.n.givenName = data.n.givenName || m[2];
+        data.n.familyName = data.n.familyName || m[1];
+      }
+      
       return fn;
     }
   }],
-  many : ['label', 'sound', 'title', 'role', 'key', 'mailer', 'rev', 'nickname', 'category', 'note', { 
-      'url' : 'url', 'logo' : 'url', 'photo' : 'url' 
+  many : ['label', 'sound', 'title', 'role', 'key', 'mailer', 'rev', 'nickname', 'category', 'note', 'tel', { 
+      'url' : 'url', 'logo' : 'url', 'photo' : 'url', 'email' : 'url' 
     }, {
-    'email' : {
-      one : ['type', { 'value' : 'url' }]
-    },
-    'tel' : {
-      one : ['type', 'value']
-    },
     'adr' : {
       one : ['post-office-box', 'extended-address', 'street-address', 'locality', 'region',
-             'postal-code', 'country-name', 'value'],
-      many : ['type']
+             'postal-code', 'country-name']
     },
-    'org' : {
-      one : ['organization-name', 'organization-unit']
+    // implied org
+    'org' : function(node) {
+      var org = this._extractData(node, {
+        one : ['organization-name'],
+        many : ['organization-unit']
+      });
+      
+      if (!org.organizationName) 
+        org.organizationName = this._extractData(node, 'simple');
+        
+      return org;
     }
   }]
 });
-
-// Implied n processor
-HCard.addHandler('fn', function(value, data) {
-  // TODO
-})

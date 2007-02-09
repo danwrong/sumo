@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Test Suite</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script src="js/prototype.js" type="text/javascript"></script>
+<script src="js/unittest.js" type="text/javascript"></script>
+<script src="js/suiterunner.js" type="text/javascript"></script>
+<script src="/testRunner" type="text/javascript"></script>
+<script src="js/testFinder.js" type="text/javascript"></script>
+<link rel="stylesheet" href="j3unit.css" type="text/css" />
+<script type="text/javascript">
+function runTests() {
+	if(runner.isReady()) {
+		logger.debug("tests are ready");
+		runner.runTests();
+		return;
+	}
+	
+	logger.debug("waiting for tests to load...");
+	setTimeout("runTests()", 500);
+}
+
+function toggleTests(element) {
+	var testListElement = document.getElementsByClassName('testList', element.parentNode)[0];
+	Element.toggle(testListElement);
+	if(testListElement.style.display!='none') {
+		element.innerHTML='-';
+	} else {
+		element.innerHTML='+';
+	}
+}
+</script>
+</head>
+
+<body onload="setTimeout('runTests()', 500);">
+<p id="title">JavaScript Tests</p>
+
+<p class="sectionTitle">Test Results</p>
+<div id="results">
+<ul id="resultsList">
+<!-- For testing
+<li class="passed">10 test(s) passed.</li>
+<li class="failed">1 test(s) failed.</li>
+<li>Finished after 10.1 seconds</li>
+-->
+</ul>
+</div>
+
+<div id="tests">
+
+<p class="sectionTitle">Tests</p>
+<div>
+<ul id="testCaseList">
+<!-- For testing
+<li class="failed"><a href="">failed</a></li>
+<li class="passed"><span onclick="toggleTests(this);">+</span><a href="">passed</a>
+	<ul class="testList" style="display:none">
+		<li class="passed"><a href="">passed</a></li>
+	</ul>
+</li>
+-->
+</ul>
+</div>
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Sample Test</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script src="../js/prototype.js" type="text/javascript"></script>
+<script src="../js/unittest.js" type="text/javascript"></script>
+<script src="../js/suiterunner.js" type="text/javascript"></script>
+<link rel="stylesheet" href="../j3unit.css" type="text/css" />
+</head>
+
+<body>
+<div style="display:none">
+<div id="t1">
+  <div class="vcard">
+     <a class="url fn" href="http://tantek.com/">Tantek Çelik</a>
+     <div class="org">Technorati</div>
+  </div>
+</div>
+
+<div id="t2">
+  <div class="vcard"><span class="fn n"><span class="given-name">Ryan</span> <span class="family-name">King</span></span></div>
+  <p><span class="attendee vcard"><span class="fn n"><span class="given-name">Ryan</span> <span class="family-name">King</span></span></span></p>
+  <address class="vcard author"><span class="fn n"><span class="given-name">Ryan</span> <span class="family-name">King</span></span></address>
+  <ul><li class="reviewer vcard first"><span class="fn n"><span class="given-name">Ryan</span> <span class="family-name">King</span></span></li></ul>
+</div>
+
+<div id="t3">
+  <p class="vcard">
+      <span class="fn">Ryan King</span>
+    </p>
+
+    <p class="vcard">
+      <abbr class="fn" title="Ryan King">me</abbr>
+    </p>
+
+    <p class="vcard">
+      <img src="/me.jpg" title="Brian Suda" alt="Ryan King" class="fn" />
+    </p>
+
+    <p class="vcard">
+
+    <a class="fn" href="http://suda.co.uk/">Brian Suda</a>
+    </p>
+
+    <p class="vcard">
+      <span class="fn">King, Ryan</span>
+    </p>
+
+    <p class="vcard">
+      <span class="fn">King, R</span>
+
+    </p>
+
+    <p class="vcard">
+      <span class="fn">King R</span>
+    </p>
+
+    <p class="vcard">
+      <span class="fn">King R.</span>
+    </p>
+
+    <p class="vcard">
+      <span class="fn">Jesse James Garrett</span>
+    </p> 
+
+    <p class="vcard">
+      <span class="fn">Thomas Vander Wal</span>
+    </p>
+</div>
+
+<div id="t4">
+  <p class="vcard">
+      <!-- fn should be the text node (with implied-n-optimization) and 'email' should be the href, sans scheme -->
+      <a class="fn email" href="mailto:ryan@technorati.com">Ryan King</a>
+  </p>
+  <p class="vcard">
+        <!-- ignore the parameters on the addr-spec -->
+        <a class="fn email" href="mailto:brian@example.com?subject=foo">Brian Suda</a>
+      </p>
+</div>
+
+<div id="t5">
+  <p class="vcard">
+        <span class="fn n">
+          <span class="given-name">John</span> <span class="family-name">Doe</span></span>
+          <a class="url" href="http://example.com/foo">my website</a>
+          <a class="url" href="http://example.com/bar">my other website</a>
+      </p>
+</div>
+
+<div id="t6">
+  <p class="vcard">
+        <span class="fn n"><span class="given-name">John</span> <span class="family-name">Doe</span></span>
+
+        <!-- take the @src, ignore the @type -->
+        <img class="url" src="http://example.org/picture.png" type="image/png" />
+      </p>
+</div>
+
+<div id="t7">
+<p class="vcard">
+      <span class="fn n">
+
+        <span class="honorific-prefix">Mr.</span>
+        <span class="given-name">John</span>
+        <span class="additional-name">Maurice</span>
+        <span class="family-name">Doe</span>,
+        <span class="honorific-suffix">Ph.D.</span>
+      </span>
+    </p>
+    <p class="vcard">
+          <span class="fn n">
+
+            <span class="honorific-prefix">Mr.</span>
+            <span class="honorific-prefix">Dr.</span>
+            <span class="given-name">John</span>
+            <span class="additional-name">Maurice</span>
+            <span class="additional-name">Benjamin</span>
+            <span class="family-name">Doe</span>
+
+            <span class="honorific-suffix">Ph.D.</span>,
+            <span class="honorific-suffix">J.D.</span>
+          </span>
+        </p>
+</div>
+
+<div id="t8">
+  <p class="vcard">
+        <span class="fn">John Doe</span>
+
+        <span class="email">john@example.com</span>
+      </p>
+</div>
+
+<div id="t9">
+  <div class="vcard">
+        <p class="fn">John Doe</p>
+
+        <p class="tel">+1.415.555.1231</p>
+        <p class="tel">
+          <span class="type">home</span>
+          <span class="value">+1 415 555 1232</span>
+        </p>
+        <p class="tel">
+          <abbr class="type" title="home">H</abbr>
+
+          <span class="value">+1 415 555 1234</span>
+        </p>
+        <div class="tel">
+          types:
+          <ul>
+            <li class="type">msg</li>
+            <li class="type">home</li>
+            <li class="type">work</li>
+
+            <li class="type">pref</li>
+            <li class="type">voice</li>
+            <li class="type">fax</li>
+            <li class="type">cell</li>
+            <li class="type">video</li>
+            <li class="type">pager</li>
+
+            <li class="type">bbs</li>
+            <li class="type">car</li>
+            <li class="type">isdn</li>
+            <li class="type">pcs</li>
+          </ul>
+          <span class="value">+1</span>
+
+          <span class="value">415</span>
+          <span class="value">555</span>
+          <span class="value">1233</span>
+        </div>
+      </div>
+</div>
+
+<div id="t10">
+  <p class="vcard">
+        <abbr class="geo" title="30.267991;-97.739568"><span class="fn org">Paradise</span></abbr>
+
+      </p>
+</div>
+
+</div>
+
+<!-- Log output -->
+<div id="testlog"></div>
+
+<script src="../../microformat.js" type="text/javascript"></script>
+<script src="../../hcard.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+
+  // Lets test a few basic prototype features as an example
+  var testCase = new Test.Unit.Runner({    
+	  testBasic: function() {with(this) {
+		  var hcards = HCard.discover($('t1'));
+		  assertEqual(1, hcards.length);
+		  var hc = hcards[0]
+		  assertEqual('Tantek Çelik', hc.fn);
+		  assertEqual('http://tantek.com/', hc.urlList[0]);
+		  assertEqual('Technorati', hc.orgList[0].organizationName);
+	  }},
+	  testMulticlass: function() {with(this){
+	    var hcards = HCard.discover($('t2'));
+	    assertEqual(4, hcards.length);
+	    var hc = hcards[0];
+	    assertEqual('Ryan King', hc.fn);
+	    assertEqual('Ryan', hc.n.givenName);
+	    hc = hcards[3];
+	    assertEqual('Ryan King', hc.fn);
+	    assertEqual('King', hc.n.familyName);
+	  }},
+	  testImpliedN: function() {with(this) {
+	   var hcards = HCard.discover($('t3'));
+	   assertEqual(10, hcards.length);
+	   assertEqual('Ryan', hcards[0].n.givenName);
+	   assertEqual('Ryan King', hcards[1].fn);
+	   assertEqual('King', hcards[1].n.familyName); 
+	   assertEqual('Ryan King', hcards[2].fn);
+	   assertEqual('Ryan', hcards[4].n.givenName);
+	  }},
+	  testMailto: function() {with(this) {
+	    var hcards = HCard.discover($('t4'));
+	    assertEqual('Ryan', hcards[0].n.givenName);
+	    assertEqual('ryan@technorati.com', hcards[0].emailList[0]);
+	    assertEqual('brian@example.com', hcards[1].emailList[0])
+	  }},
+	  testMultiUrls: function() {with(this) {
+	    var hcards = HCard.discover($('t5'));
+	    assertEqual(2, hcards[0].urlList.length);
+	  }},
+  	testMultiUrls: function() {with(this) {
+  	  var hcards = HCard.discover($('t6'));
+  	  assertEqual('http://example.org/picture.png', hcards[0].urlList[0]);
+  	}},
+  	testHonorific : function() {with(this) {
+  	  var hc = HCard.discover($('t7'))[0];
+  	  var hc2 = HCard.discover($('t7'))[1];
+  	  assertEqual('Mr. John Maurice Doe, Ph.D.', hc.fn);
+  	  assertEqual('Ph.D.', hc.n.honorificSuffixList[0]);
+  	  assertEqual('Mr.', hc.n.honorificPrefixList[0]);
+  	  assertEqual(2, hc2.n.honorificPrefixList.length);
+  	  assertEqual(2, hc2.n.honorificSuffixList.length);
+  	}},
+  	testNotURI : function() {with(this) {
+  	  var hc = HCard.discover($('t8'))[0];
+  	  assertEqual('john@example.com', hc.emailList[0]);
+  	}},
+  	testClassValuesAndTypes: function() {with(this) {
+  	  var hc = HCard.discover($('t9'))[0];
+  	  assertEqual('+1.415.555.1231', hc.telList[0]);
+  	  assertEqual('+1 415 555 1232', hc.telList[1]);
+  	  assertEqual('home', hc.telList[1].types[0]);
+  	}},
+  	testGeo: function(){with(this) {
+  	  var hc = HCard.discover($('t10'))[0];
+  	  assertEqual('Paradise', hc.orgList[0].organizationName);
+  	  assertEqual('30.267991', hc.geo.latitude);
+  	  assertEqual('-97.739568', hc.geo.longitude);
+  	}}
+  }, 'testlog');
+  
+// ]]>
+
+</script>
+
+</body>
+
+</html>

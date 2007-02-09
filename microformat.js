@@ -22,7 +22,7 @@ if (!Array.prototype.forEach) {
   }
 }
 
-if (!Array.prototype.map) {
+if (Prototype || !Array.prototype.map) {
   Array.prototype.map = function(func, scope) {
     scope = scope || this;
     var list = [];
@@ -32,7 +32,7 @@ if (!Array.prototype.map) {
   }
 }
 
-if (!Array.prototype.filter) {
+if (Prototype || !Array.prototype.filter) {
   Array.prototype.filter = function(func, scope) {
     scope = scope || this;
     var list = [];
@@ -151,6 +151,9 @@ Microformat = {
       if (dataType._parse) return dataType._parse(dataType.format, node);
       if (typeof dataType == 'function') return dataType.call(this, node, data);
       
+      var values = Microformat.$$('value', node);
+      if (values.length > 0) return this._extractClassValues(node, values);
+      
       switch (dataType) {
         case 'simple': return this._extractSimple(node);
         case 'url': return this._extractURL(node);
@@ -181,19 +184,29 @@ Microformat = {
       }
       return this._coerce(this._getText(node));
     },
+    _extractClassValues : function(node, values) {
+      var value = new String(values.map(function(value) {
+        return this._extractSimple(value);
+      }, this).join(''));
+      var types = Microformat.$$('type', node);
+      var t = types.map(function(type) {
+        return this._extractSimple(type);
+      }, this);
+      value.types = t;
+      return value;
+    },
     _getText : function(node) {
       if (node.innerText) return node.innerText;
       return Array.map(node.childNodes, function(node) {
         if (node.nodeType == 3) return node.nodeValue;
         else return this._getText(node);
-      }, this).join('').replace(/(^\s+)|(\s+)$/, '').replace(/\s+/g, ' ');
+      }, this).join('').replace(/\s+/g, ' ').replace(/(^\s+)|(\s+)$/g, '');
     },
     _coerce : function(value) {
       var date, number;
       if (value == 'true') return true;
       if (value == 'false') return false;
       if (date = Date.parseISO8601(value)) return date;
-      if (number = parseFloat(value)) return number;
       return String(value);
     },
     _propFor : function(name) {
