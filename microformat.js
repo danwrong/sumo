@@ -22,7 +22,7 @@ if (!Array.prototype.forEach) {
   }
 }
 
-if (Prototype || !Array.prototype.map) {
+if (typeof Prototype != 'undefined' || !Array.prototype.map) {
   Array.prototype.map = function(func, scope) {
     scope = scope || this;
     var list = [];
@@ -32,7 +32,7 @@ if (Prototype || !Array.prototype.map) {
   }
 }
 
-if (Prototype || !Array.prototype.filter) {
+if (typeof Prototype != 'undefined' || !Array.prototype.filter) {
   Array.prototype.filter = function(func, scope) {
     scope = scope || this;
     var list = [];
@@ -94,7 +94,6 @@ Microformat = {
     
     mf.container = name;
     mf.format = spec;
-    mf.handlers = {};
     mf.prototype = Microformat.Base;
     return Microformat.extend(mf, Microformat.SingletonMethods);
   },
@@ -103,9 +102,6 @@ Microformat = {
       return Microformat.$$(this.container, context).map(function(node) {
         return new this(node, this._parse(this.format, node));
       }, this);
-    },
-    addHandler : function(prop, callback) {
-      this.handlers[prop] = callback;
     },
     _parse : function(format, node) {
       var data = {};
@@ -165,6 +161,7 @@ Microformat = {
       switch (node.nodeName.toLowerCase()) {
         case 'img':    href = node.src;
                        break;
+        case 'area':
         case 'a':      href = node.href;
                        break;
         case 'object': href = node.data;
