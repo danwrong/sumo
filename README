@@ -1,0 +1,15 @@
+Sumo - Microformats Parsing For JavaScript
+------------------------------------------
+
+Sumo is an extensible framework for creating microformats parsers in JavaScript.  Parsers for HCard, HEvent and HReview are included.
+
+Usage
+-----
+
+HCard.discover() 
+
+Which gives an array of JSON objects containing all the hcards within the page.
+
+Read more here:
+
+http://www.danwebb.net/2007/2/9/sumo-a-generic-microformats-parser-for-javascript
