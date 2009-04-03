@@ -222,9 +222,9 @@ Microformat = {
   $$ : function(className, context) {
     if (typeof Sizzle == 'function') {
       return Sizzle('.'+className, context);
-    } else if (Prototype) {
-      return Selector.findChildElements(context, $A('.'+className));
-    } else if (jQuery) {
+    } else if (typeof Selector == 'function') {
+      return Selector.findChildElements(context, $A(['.'+className]));
+    } else if (typeof jQuery == 'function') {
       return jQuery('.'+className, context)
     } else {
       context = context || document;
