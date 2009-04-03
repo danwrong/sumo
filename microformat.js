@@ -220,22 +220,30 @@ Microformat = {
   },
   // In built getElementsByClassName
   $$ : function(className, context) {
-    context = context || document;
-    var nodeList;
-
-    if (context == document || context.nodeType == 1) {
-      if (typeof document.evaluate == 'function') {
-        var xpath = document.evaluate(".//*[contains(concat(' ', @class, ' '), ' " + className + " ')]", 
-                                      context, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        var els = [];
-        for (var i = 0, l = xpath.snapshotLength; i < l; i++)
-         els.push(xpath.snapshotItem(i));
-        return els;
-      } else nodeList = context.getElementsByTagName('*');
-    } else nodeList = context;
-
-    var re = new RegExp('(^|\\s)' + className + '(\\s|$)');
-    return Array.filter(nodeList, function(node) {  return node.className.match(re) });
+    if (typeof Sizzle == 'function') {
+      return Sizzle('.'+className, context);
+    } else if (Prototype) {
+      return Selector.findChildElements(context, $A('.'+className));
+    } else if (jQuery) {
+      return jQuery('.'+className, context)
+    } else {
+      context = context || document;
+      var nodeList;
+      
+      if (context == document || context.nodeType == 1) {
+        if (typeof document.evaluate == 'function') {
+          var xpath = document.evaluate(".//*[contains(concat(' ', @class, ' '), ' " + className + " ')]", 
+                                        context, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          var els = [];
+          for (var i = 0, l = xpath.snapshotLength; i < l; i++)
+           els.push(xpath.snapshotItem(i));
+          return els;
+        } else nodeList = context.getElementsByTagName('*');
+      } else nodeList = context;
+      
+      var re = new RegExp('(^|\\s)' + className + '(\\s|$)');
+      return Array.filter(nodeList, function(node) {  return node.className.match(re) });
+    }
   },
   // In built Object.extend equivilent
   extend : function(dest, source) {

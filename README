@@ -3,6 +3,8 @@ Sumo - Microformats Parsing For JavaScript
 
 Sumo is an extensible framework for creating microformats parsers in JavaScript.  Parsers for HCard, HEvent and HReview are included.
 
+It is framework independent, but will use Sizzle, jQuery or Prototype's selector engine if available.
+
 Usage
 -----
 
